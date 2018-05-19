@@ -1,5 +1,7 @@
 package com.jflavio1.mvp.repository
 
+import io.reactivex.Observable
+
 /**
  * MoviesRepository
  *
@@ -8,6 +10,6 @@ package com.jflavio1.mvp.repository
  */
 interface MoviesRepository<T> {
 
-    fun getMovies() : ArrayList<T>
+    fun getMovies() : Observable<ArrayList<T>>
 
 }

@@ -1,5 +1,8 @@
 package com.jflavio1.mvp.view
 
+import com.jflavio1.mvp.entities.Movie
+import com.jflavio1.mvp.presenter.ShowMoviesPresenter
+
 /**
  * ShowMoviesView
  *
@@ -7,4 +10,17 @@ package com.jflavio1.mvp.view
  * @since  19/5/17
  */
 interface ShowMoviesView {
+
+    fun setPresenter(presenter: ShowMoviesPresenter)
+
+    fun showLoader()
+
+    fun hideLoader()
+
+    fun errorInternet()
+
+    fun errorServer()
+
+    fun onMoviesLoaded(list: ArrayList<Movie>)
+
 }

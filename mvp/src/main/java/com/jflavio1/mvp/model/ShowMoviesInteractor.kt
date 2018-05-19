@@ -7,5 +7,7 @@ package com.jflavio1.mvp.model
  * @since  19/5/17
  */
 interface ShowMoviesInteractor {
-    
+
+    fun getMovies()
+
 }
