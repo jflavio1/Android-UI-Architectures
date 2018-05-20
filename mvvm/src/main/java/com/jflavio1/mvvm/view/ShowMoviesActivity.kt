@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.jflavio1.mvvm.R
 import com.jflavio1.mvvm.entities.Movie
 import com.jflavio1.mvvm.viewmodel.ShowMoviesViewModel
@@ -18,6 +19,18 @@ class ShowMoviesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ShowMoviesViewModel::class.java)
+
+        viewModel.getState().observe(this, Observer<Int> {
+            when (it) {
+                1 -> {
+                    pb.visibility = View.VISIBLE
+                }
+
+                2 -> {
+                    pb.visibility = View.GONE
+                }
+            }
+        })
 
         btn.setOnClickListener {
             viewModel.getMoviesList().observe(this@ShowMoviesActivity, Observer<ArrayList<Movie>> {

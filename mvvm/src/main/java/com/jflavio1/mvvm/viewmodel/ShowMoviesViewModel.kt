@@ -16,14 +16,23 @@ import io.reactivex.schedulers.Schedulers
 class ShowMoviesViewModel : ViewModel() {
 
     private val list = MutableLiveData<ArrayList<Movie>>()
+    private val loadState = MutableLiveData<Int>()
     private var repo = ShowMoviesRepository()
 
+    fun getState() = loadState
+
     fun getMoviesList(): MutableLiveData<ArrayList<Movie>> {
+        loadState.value = 1
         repo.getMovies()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(list::postValue)
+                .subscribe(this::loadList)
         return list
+    }
+
+    private fun loadList(l: ArrayList<Movie>) {
+        loadState.value = 2
+        list.postValue(l)
     }
 
 }
