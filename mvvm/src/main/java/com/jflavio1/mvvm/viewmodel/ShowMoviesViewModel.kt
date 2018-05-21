@@ -2,10 +2,10 @@ package com.jflavio1.mvvm.viewmodel
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.support.annotation.RestrictTo
 import com.jflavio1.mvvm.entities.Movie
 import com.jflavio1.mvvm.repository.ShowMoviesRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
+import io.reactivex.Scheduler
 
 /**
  * ShowMoviesViewModel
@@ -16,16 +16,22 @@ import io.reactivex.schedulers.Schedulers
 class ShowMoviesViewModel : ViewModel() {
 
     private val list = MutableLiveData<ArrayList<Movie>>()
+
+    @RestrictTo(RestrictTo.Scope.TESTS)
+    val testList = MutableLiveData<ArrayList<Movie>>()
+
     private val loadState = MutableLiveData<Int>()
-    private var repo = ShowMoviesRepository()
+    var repo = ShowMoviesRepository()
+    lateinit var computationScheduler : Scheduler
+    lateinit var androidSchedulers: Scheduler
 
     fun getState() = loadState
 
     fun getMoviesList(): MutableLiveData<ArrayList<Movie>> {
         loadState.value = LOADING
         repo.getMovies()
-                .subscribeOn(Schedulers.computation())
-                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(computationScheduler)
+                .observeOn(androidSchedulers)
                 .subscribe(this::loadList)
         return list
     }
@@ -33,6 +39,7 @@ class ShowMoviesViewModel : ViewModel() {
     private fun loadList(l: ArrayList<Movie>) {
         loadState.value = LOADED
         list.postValue(l)
+        testList.postValue(l)
     }
 
     companion object {

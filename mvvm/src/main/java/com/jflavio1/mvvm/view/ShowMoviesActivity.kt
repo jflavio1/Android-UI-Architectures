@@ -8,6 +8,8 @@ import android.view.View
 import com.jflavio1.mvvm.R
 import com.jflavio1.mvvm.entities.Movie
 import com.jflavio1.mvvm.viewmodel.ShowMoviesViewModel
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.StringBuilder
 
@@ -19,6 +21,8 @@ class ShowMoviesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ShowMoviesViewModel::class.java)
+        viewModel.computationScheduler = Schedulers.computation()
+        viewModel.androidSchedulers = AndroidSchedulers.mainThread()
         observeLoadState()
         requestForMovies()
     }
