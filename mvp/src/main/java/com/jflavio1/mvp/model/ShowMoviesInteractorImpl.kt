@@ -23,9 +23,9 @@ class ShowMoviesInteractorImpl(var presenter: ShowMoviesPresenter): ShowMoviesIn
 
     override fun getMovies() {
         repo.getMovies()
-                // in what thread is going to be done the work
+                // in which thread the work will be executed
                 .subscribeOn(Schedulers.computation())
-                // in what thread is going to be listened every onNext()
+                // in which thread is onNext() method going to be listened
                 .observeOn(AndroidSchedulers.mainThread())
                 // onNext() call will execute onMoviesLoaded method
                 .subscribe({ presenter.onMoviesLoaded(it) })
