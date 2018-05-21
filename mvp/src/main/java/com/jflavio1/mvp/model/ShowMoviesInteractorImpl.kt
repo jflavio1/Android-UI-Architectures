@@ -28,9 +28,7 @@ class ShowMoviesInteractorImpl(var presenter: ShowMoviesPresenter): ShowMoviesIn
                 // in which thread is onNext() method going to be listened
                 .observeOn(AndroidSchedulers.mainThread())
                 // onNext() call will execute onMoviesLoaded method
-                .subscribe({ presenter.onMoviesLoaded(it) })
+                .subscribe(presenter::onMoviesLoaded)
     }
-
-
 
 }
