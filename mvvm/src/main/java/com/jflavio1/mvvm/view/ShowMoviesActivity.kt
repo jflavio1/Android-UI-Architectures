@@ -26,11 +26,11 @@ class ShowMoviesActivity : AppCompatActivity() {
     private fun observeLoadState() {
         viewModel.getState().observe(this, Observer<Int> {
             when (it) {
-                1 -> {
+                ShowMoviesViewModel.LOADING -> {
                     pb.visibility = View.VISIBLE
                 }
 
-                2 -> {
+                ShowMoviesViewModel.LOADED -> {
                     pb.visibility = View.GONE
                 }
             }

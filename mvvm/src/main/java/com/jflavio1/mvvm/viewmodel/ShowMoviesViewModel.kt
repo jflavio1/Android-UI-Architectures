@@ -22,7 +22,7 @@ class ShowMoviesViewModel : ViewModel() {
     fun getState() = loadState
 
     fun getMoviesList(): MutableLiveData<ArrayList<Movie>> {
-        loadState.value = 1
+        loadState.value = LOADING
         repo.getMovies()
                 .subscribeOn(Schedulers.computation())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -31,8 +31,13 @@ class ShowMoviesViewModel : ViewModel() {
     }
 
     private fun loadList(l: ArrayList<Movie>) {
-        loadState.value = 2
+        loadState.value = LOADED
         list.postValue(l)
+    }
+
+    companion object {
+        const val LOADING = 1
+        const val LOADED = 2
     }
 
 }
