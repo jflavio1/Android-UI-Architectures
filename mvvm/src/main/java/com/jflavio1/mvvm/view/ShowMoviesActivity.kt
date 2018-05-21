@@ -19,7 +19,11 @@ class ShowMoviesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ShowMoviesViewModel::class.java)
+        observeLoadState()
+        requestForMovies()
+    }
 
+    private fun observeLoadState() {
         viewModel.getState().observe(this, Observer<Int> {
             when (it) {
                 1 -> {
@@ -31,16 +35,17 @@ class ShowMoviesActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    private fun requestForMovies() {
         btn.setOnClickListener {
             viewModel.getMoviesList().observe(this@ShowMoviesActivity, Observer<ArrayList<Movie>> {
                 onMoviesLoaded(it!!)
             })
         }
-
     }
 
-    fun onMoviesLoaded(list: ArrayList<Movie>) {
+    private fun onMoviesLoaded(list: ArrayList<Movie>) {
         val text = StringBuilder()
         for (i in 0..(list.size - 1)) {
             text.append("Movie: ${list[i].name}, director: ${list[i].director}\n")
