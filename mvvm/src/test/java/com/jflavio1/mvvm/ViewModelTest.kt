@@ -6,6 +6,8 @@ import com.jflavio1.mvvm.repository.ShowMoviesRepository
 import com.jflavio1.mvvm.viewmodel.ShowMoviesViewModel
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.schedulers.TestScheduler
 import junit.framework.Assert.assertTrue
 import org.junit.Before
@@ -39,8 +41,10 @@ class ViewModelTest {
         reset(repo)
         scheduler = TestScheduler()
         vm.repo = repo
-        vm.computationScheduler = scheduler
-        vm.androidSchedulers = scheduler
+        vm.apply {
+            computationScheduler = scheduler
+            androidSchedulers = scheduler
+        }
     }
 
     @Test

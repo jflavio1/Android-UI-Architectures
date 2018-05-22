@@ -21,8 +21,10 @@ class ShowMoviesActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewModel = ViewModelProviders.of(this).get(ShowMoviesViewModel::class.java)
-        viewModel.computationScheduler = Schedulers.computation()
-        viewModel.androidSchedulers = AndroidSchedulers.mainThread()
+        viewModel.apply {
+            computationScheduler = Schedulers.computation()
+            androidSchedulers = AndroidSchedulers.mainThread()
+        }
         observeLoadState()
         requestForMovies()
     }
